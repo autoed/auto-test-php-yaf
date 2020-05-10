@@ -74,28 +74,6 @@ class RoutePlugin extends Plugin_Abstract
         $request->setModuleName($realModule);
         $request->setControllerName($realController);
         $request->setActionName($realAction);
-
-        //执行测试模式
-        if (AUTO_TEST_START) {
-            $allRoute = array_flip(array_map(function ($item){
-                $tmp = explode('@', $item);
-                return strtolower($tmp[1].'Controller/'.$tmp[2].'Action');
-            }, array_merge(Routes::$get, Routes::$post)));
-            $className  = $realController . 'Controller';
-            $actionName = $realAction . 'Action';
-            $file =  APP_PATH . '/application/modules/'.$realModule.'/controllers/'.$realController.'.php';
-            if (file_exists($file)) {
-                require_once $file;
-            }
-            try{
-                $realArr = Auto\Auto::_auto($className, $actionName, $allRoute);
-            } catch (\Exception $e) {
-                //记录执行错误Log
-                echo $e->getMessage();die;
-            }
-            $params = array();
-            $params['data'] = $realArr;
-        }
     }
 
     /**
