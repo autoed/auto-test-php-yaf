@@ -1,6 +1,8 @@
 <?php
 
 use Yaf\Bootstrap_Abstract;
+use Yaf\Dispatcher;
+use Yaf\Loader;
 
 /**
  * Class Bootstrap
@@ -10,32 +12,70 @@ use Yaf\Bootstrap_Abstract;
  */
 class Bootstrap extends Bootstrap_Abstract
 {
-    /** @var object config */
+    /**
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
+     */
 	private $config;
 
     /**
-     * 初始化错误,要放在最前面
+     * 初始化错误
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
      */
     public function _initErrors()
     {
         //如果为开发环境,打开所有错误提示
         if (Yaf\ENVIRON === 'develop') {
-            error_reporting(E_ALL);//使用error_reporting来定义哪些级别错误可以触发
+            error_reporting(E_ALL);
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
         }
     }
 
     /**
-     * 加载vendor下的文件
+     * 函数载入
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
      */
-    public function _initLoader()
+    public function _initFunction()
     {
-        \Yaf\Loader::import(APP_PATH . '/vendor/autoload.php');
+        Loader::import('Common/functions.php');
+        Loader::import('Common/routes.php');
+        Loader::import('Common/baseController.php');
     }
 
     /**
-     * 配置
+     * 路由载入
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
+     */
+    public function _initRoute()
+    {
+        Loader::import(ROUTE_PATH . '/Product.php');
+        Loader::import(ROUTE_PATH . '/Meeting.php');
+    }
+
+    /**
+     * vendor载入
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
+     */
+    public function _initLoader()
+    {
+        Loader::import(APP_PATH . '/vendor/autoload.php');
+    }
+
+    /**
+     * 配置载入
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
      */
     public function _initConfig()
     {
@@ -45,8 +85,12 @@ class Bootstrap extends Bootstrap_Abstract
 	}
 
     /**
-     * 日志
-     * @param \Yaf\Dispatcher $dispatcher
+     * 日志载入
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
+     * @param Dispatcher $dispatcher
+     * @throws Exception
      */
 	public function _initLogger(\Yaf\Dispatcher $dispatcher)
     {
@@ -54,7 +98,7 @@ class Bootstrap extends Bootstrap_Abstract
         if (Yaf\ENVIRON === 'develop') {
             if ($this->config->socketlog->enable) {
                 //载入
-                \Yaf\Loader::import('Common/Logger/slog.function.php');
+                Loader::import('Common/Logger/slog.function.php');
                 //配置SocketLog
                 slog($this->config->socketlog->toArray(),'config');
             }
@@ -62,39 +106,28 @@ class Bootstrap extends Bootstrap_Abstract
     }
 
     /**
-     * 插件
-     * @param \Yaf\Dispatcher $dispatcher
+     * 插件载入
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
+     * @param Dispatcher $dispatcher
      */
 	public function _initPlugin(Yaf\Dispatcher $dispatcher)
     {
         /**
-         * @var UserPlugin $userRegister
+         * @var RoutePlugin $register
          */
-        $userRegister = new UserPlugin();
-        $dispatcher->registerPlugin($userRegister);
-	}
-
-    /**
-     * 路由
-     * @param \Yaf\Dispatcher $dispatcher
-     */
-	public function _initRoute(\Yaf\Dispatcher $dispatcher)
-    {
-		//在这里注册自己的路由协议,默认使用简单路由
-	}
-
-    /**
-     * LocalName
-     */
-	public function _initLocalName()
-    {
-
+        $register = new RoutePlugin();
+        $dispatcher->registerPlugin($register);
 	}
 
 
     /**
-     * View
-     * @param \Yaf\Dispatcher $dispatcher
+     * 模板引擎
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
+     * @param Dispatcher $dispatcher
      */
     public function _initView(\Yaf\Dispatcher $dispatcher)
     {
@@ -109,9 +142,10 @@ class Bootstrap extends Bootstrap_Abstract
     }
 
     /**
-     * 初始化数据库分发器
-     * @function _initDefaultDbAdapter
-     * @author   jsyzchenchen@gmail.com
+     * 数据库分发
+     * User:  fomo3d.wiki
+     * Email: fomo3d.wiki@gmail.com
+     * Date: 2020/5/10
      */
     public function _initDefaultDbAdapter()
     {
@@ -122,16 +156,6 @@ class Bootstrap extends Bootstrap_Abstract
         $capsule->setAsGlobal();
         //开启Eloquent ORM
         $capsule->bootEloquent();
-
         class_alias('\Illuminate\Database\Capsule\Manager', 'DB');
-    }
-
-
-    /**
-     * 公用函数载入
-     */
-    public function _initFunction()
-    {
-        \Yaf\Loader::import('Common/functions.php');
     }
 }

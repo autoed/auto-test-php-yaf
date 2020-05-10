@@ -1,12 +1,6 @@
 <?php
-/***
- * 函数库
- * @author jsyzchenchen@gmail.com
- * date 2015-11-30
- */
-
 /**
- * 获取输入参数 支持过滤和默认值 From ThinkPHP 系统函数库(I函数)
+ * 获取输入参数 支持过滤和默认值
  * 使用方法:
  * <code>
  * input('id',0); 获取id参数 自动判断get或者post
@@ -155,12 +149,14 @@ function input($name,$default='',$filter=null,$datas=null) {
 }
 
 /**
- * 其他安全过滤 From ThinkPHP 系统函数库 为input函数服务
+ * 安全过滤
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
  * @param $value
  */
 function other_safe_filter(&$value)
 {
-    // TODO 其他安全过滤
     // 过滤查询特殊字符
     if (preg_match('/^(EXP|NEQ|GT|EGT|LT|ELT|OR|XOR|LIKE|NOTLIKE|NOT BETWEEN|NOTBETWEEN|BETWEEN|NOTIN|NOT IN|IN)$/i', $value)) {
         $value .= ' ';
@@ -168,7 +164,10 @@ function other_safe_filter(&$value)
 }
 
 /**
- * 用于input函数的递归
+ * Input函数的递归
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
  * @param $filter
  * @param $data
  * @return array
@@ -185,9 +184,12 @@ function array_map_recursive($filter, $data)
 }
 
 /**
- * 获取客户端IP地址 FROM ThinkPHP 系统函数库
- * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
+ * 获取客户端IP地址
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
+ * @param int $type
+ * @param bool $adv
  * @return mixed
  */
 function get_client_ip($type = 0, $adv = false) {
@@ -215,8 +217,12 @@ function get_client_ip($type = 0, $adv = false) {
 }
 
 /**
- * GET 请求 FROM wechat-php-sdk
- * @param string $url
+ * GET 请求
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
+ * @param $url
+ * @return bool|string
  */
 function http_get($url){
     $oCurl = curl_init();
@@ -238,11 +244,14 @@ function http_get($url){
 }
 
 /**
- * POST 请求 FROM wechat-php-sdk
- * @param string $url
- * @param array $param
- * @param boolean $post_file 是否文件上传
- * @return string content
+ * POST 请求
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
+ * @param $url
+ * @param $param
+ * @param bool $post_file
+ * @return bool|string
  */
 function http_post($url, $param, $post_file=false){
     $oCurl = curl_init();
@@ -276,10 +285,13 @@ function http_post($url, $param, $post_file=false){
 
 
 /**
- * curl 批处理
- * @param $url_array
+ * Curl 批处理
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
+ * @param $data
+ * @param array $options
  * @return array
- * @author jsyzchenchen@gmail.com
  */
 function curl_multi($data, $options = array())
 {
@@ -333,4 +345,30 @@ function curl_multi($data, $options = array())
     //关闭批处理句柄
     curl_multi_close($mh);
     return $contents;
+}
+
+/**
+ * User:  fomo3d.wiki
+ * Email: fomo3d.wiki@gmail.com
+ * Date: 2020/5/10
+ * @param array $data
+ * @param string $msg
+ * @return false|string
+ */
+function success($data = [], $msg = '')
+{
+    return json_encode([
+        'code' => 200,
+        'msg' => $msg,
+        'obj' => $data
+    ], JSON_UNESCAPED_UNICODE);
+}
+
+function error($data = [], $msg = '')
+{
+    return json_encode([
+        'code' => 500,
+        'msg' => $msg,
+        'obj' => $data
+    ], JSON_UNESCAPED_UNICODE);
 }
