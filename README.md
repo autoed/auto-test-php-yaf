@@ -75,7 +75,7 @@ define("AUTO_TEST_START", true);
 * 在插件目录中`RoutePlugin.php`文件
 * 加入下面的代码
 ```
-/**
+    /**
      * User:  fomo3d.wiki
      * Email: fomo3d.wiki@gmail.com
      * Date: 2020/5/10
@@ -182,7 +182,7 @@ define("AUTO_TEST_START", true);
                   use Auto\Api;
               
                   /**
-                   * 出售商品
+                   * 出售商品(Notice：根据路由，选择@GET 或者 @POST)
                    * @GET array('name'=>$data::name())
                    * User:  fomo3d.wiki
                    * Email: fomo3d.wiki@gmail.com
@@ -195,7 +195,7 @@ define("AUTO_TEST_START", true);
                   }
               
                   /**
-                   * 统计商品
+                   * 统计商品(Notice：根据路由，选择@GET 或者 @POST)
                    * @GET array('email'=>$data::email())
                    * User:  fomo3d.wiki
                    * Email: fomo3d.wiki@gmail.com
@@ -208,7 +208,7 @@ define("AUTO_TEST_START", true);
                   }
               
                   /**
-                   * 买进商品
+                   * 买进商品(Notice：根据路由，选择@GET 或者 @POST)
                    * @GET array('num'=>$data::bankAccountNumber())
                    * User:  fomo3d.wiki
                    * Email: fomo3d.wiki@gmail.com
