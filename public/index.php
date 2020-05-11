@@ -4,10 +4,13 @@ use Yaf\Registry;
 header('content-type:text/html;charset=utf-8');
 
 define("CUR_TIMESTAMP", time());
-
-//API 测试
+/**
+ * 配置你的API地址(不分开部署也行)
+ */
 define("AUTO_TEST_API_HOST", 'http://www.lidi.yaf.com');
-//开启测试
+/**
+ * 开启注释测试模式
+ */
 define("AUTO_TEST_START", true);
 
 define("APP_PATH",  realpath(dirname(__FILE__) . '/../'));
